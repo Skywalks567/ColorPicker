@@ -57,6 +57,16 @@ def display_color_palette(colors):
 st.set_page_config(page_title="Color Palette Generator", layout="wide") # Mengatur konfigurasi halaman
 st.title("Color Picker Gambar")
 st.markdown("Upload Gambar")
+st.markdown(
+    """
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background-color: #ffffff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Komponen Unggah File
 uploaded_file = st.file_uploader("Pilih gambar", type=["jpg", "jpeg", "png"])
