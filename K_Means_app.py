@@ -29,7 +29,10 @@ def display_color_palette(colors):
         """
         <style>
         .stApp {
-            background-color: #f0f2f6;
+            background-image: url('https://api2.kemenparekraf.go.id/storage/app/resources/PARIWISATA_STORYNOMICS_TOURISM_shutterstock_385096972_franshendrik_Tambunan_d03d3440db.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         </style>
         """,
