@@ -28,10 +28,19 @@ def display_color_palette(colors):
     st.markdown(
         """
         <style>
-        .stApp {
+        body {
             background-color: #f0f2f6 !important;
         }
+        main {
+            background-color: #f0f2f6 !important;
+        }
+        html, body, main {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         </style>
+        
         """,
         unsafe_allow_html=True
     )
