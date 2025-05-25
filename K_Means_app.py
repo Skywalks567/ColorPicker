@@ -61,7 +61,9 @@ st.markdown(
     """
     <style>
     [data-testid="stAppViewContainer"] {
-        background-color: #ffffff;
+        background-image: url("https://api2.kemenparekraf.go.id/storage/app/resources/PARIWISATA_STORYNOMICS_TOURISM_shutterstock_385096972_franshendrik_Tambunan_d03d3440db.jpg");
+        background-size: cover;
+        background-position: center;
     }
     </style>
     """,
