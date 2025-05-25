@@ -65,7 +65,7 @@ st.markdown(
 )
 
 # Komponen Unggah File
-uploaded_file = st.file_uploader(" ", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     # Membaca gambar yang diunggah
