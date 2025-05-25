@@ -2,32 +2,27 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
-import io # Diperlukan untuk menangani byte gambar dari unggahan
+import io 
 
-# Fungsi untuk mengekstrak warna dominan
 def get_dominant_colors(image, k=5):
-    # Mengubah ukuran gambar untuk pemrosesan lebih cepat (opsional)
+
     image = image.resize((150, 150))
-    # Mengonversi gambar ke array NumPy
+
     img_array = np.array(image)
-    # Meratakan array gambar menjadi daftar piksel RGB
+
     pixels = img_array.reshape(-1, 3)
 
-    # Menerapkan K-Means
-    kmeans = KMeans(n_clusters=k, random_state=42, n_init='auto') # Menambahkan n_init untuk menghindari warning
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init='auto')
     kmeans.fit(pixels)
 
-    # Mendapatkan pusat cluster (warna dominan)
     dominant_colors = kmeans.cluster_centers_.astype(int)
     return dominant_colors
 
-# Fungsi untuk menampilkan palet warna
 def display_color_palette(colors):
     st.subheader("Palet Warna Dominan:")
-    cols = st.columns(len(colors)) # Buat kolom sebanyak jumlah warna
+    cols = st.columns(len(colors))
     for i, color in enumerate(colors):
         with cols[i]:
-            # Membuat kotak warna dengan HTML dan CSS sederhana
             st.markdown(
                 f"""
                 <div style="
@@ -53,9 +48,8 @@ def display_color_palette(colors):
             )
 
 
-# Judul Aplikasi
-st.set_page_config(page_title="Color Palette Generator", layout="centered") # Mengatur konfigurasi halaman
-st.title("Color Picker Gambar")
+st.set_page_config(page_title="Tugas AI Color Picker", layout="centered")
+st.title("Color Picker")
 st.markdown("Upload Gambar")
 st.markdown(
     """
@@ -71,7 +65,7 @@ st.markdown(
 )
 
 # Komponen Unggah File
-uploaded_file = st.file_uploader("Pilih gambar", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader(" ", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     # Membaca gambar yang diunggah
