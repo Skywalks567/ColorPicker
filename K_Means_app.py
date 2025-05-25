@@ -25,6 +25,16 @@ def get_dominant_colors(image, k=5):
 def display_color_palette(colors):
     st.subheader("Palet Warna Dominan:")
     cols = st.columns(len(colors)) # Buat kolom sebanyak jumlah warna
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-color: #f0f2f6;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     for i, color in enumerate(colors):
         with cols[i]:
             # Membuat kotak warna dengan HTML dan CSS sederhana
