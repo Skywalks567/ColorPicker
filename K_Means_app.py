@@ -27,19 +27,7 @@ def display_color_palette(colors):
     cols = st.columns(len(colors)) # Buat kolom sebanyak jumlah warna
     st.markdown(
         """
-        <style>
-        body {
-            background-color: #f0f2f6 !important;
-        }
-        main {
-            background-color: #f0f2f6 !important;
-        }
-        html, body, main {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        </style>
+        <div style="background-colour: #ffffff;"></div>
         
         """,
         unsafe_allow_html=True
