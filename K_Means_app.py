@@ -54,7 +54,7 @@ def display_color_palette(colors):
 
 
 # Judul Aplikasi
-st.set_page_config(page_title="Color Palette Generator", layout="centered") # Mengatur konfigurasi halaman
+st.set_page_config(page_title="Color Palette Generator", layout="wide") # Mengatur konfigurasi halaman
 st.title("Color Picker Gambar")
 st.markdown("Upload Gambar")
 st.markdown(
