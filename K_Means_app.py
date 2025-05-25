@@ -44,8 +44,8 @@ def display_color_palette(colors):
                     text-align: center;
                 ">
                     <div>
-                        RGB:<br>
-                        {color[0]}, {color[1]}, {color[2]}
+                        #{color[0]:02x},{color[1]:02x},{color[2]:02x}<br>
+                        RGB:({color[0]}, {color[1]}, {color[2]})
                     </div>
                 </div>
                 """,
