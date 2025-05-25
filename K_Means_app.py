@@ -41,14 +41,17 @@ def display_color_palette(colors):
                     color: white; /* Warna teks agar kontras */
                     font-weight: bold;
                     text-shadow: 1px 1px 2px black; /* Bayangan teks untuk keterbacaan */
+                    text-align: center;
                 ">
-                
-                    RGB: <br>
-                    {color[0]}, {color[1]}, {color[2]}<br>
+                    <div>
+                        RGB:<br>
+                        {color[0]}, {color[1]}, {color[2]}
+                    </div>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
+
 
 # Judul Aplikasi
 st.set_page_config(page_title="Color Palette Generator", layout="wide") # Mengatur konfigurasi halaman
