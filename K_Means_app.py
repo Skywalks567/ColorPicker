@@ -44,7 +44,7 @@ def display_color_palette(colors):
                 ">
                 
                     RGB: <br>
-                    {color[0]}, {color[1]}, {color[2]}
+                    {color[0]}, {color[1]}, {color[2]}<br>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -72,3 +72,4 @@ if uploaded_file is not None:
 
     except Exception as e:
         st.error(f"Error: Gagal memproses gambar. Pastikan file gambar valid. Detail: {e}")
+
