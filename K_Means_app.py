@@ -25,13 +25,6 @@ def get_dominant_colors(image, k=5):
 def display_color_palette(colors):
     st.subheader("Palet Warna Dominan:")
     cols = st.columns(len(colors)) # Buat kolom sebanyak jumlah warna
-    st.markdown(
-        """
-        <div style="background-colour: #ffffff;"></div>
-        
-        """,
-        unsafe_allow_html=True
-    )
     for i, color in enumerate(colors):
         with cols[i]:
             # Membuat kotak warna dengan HTML dan CSS sederhana
@@ -64,6 +57,32 @@ def display_color_palette(colors):
 st.set_page_config(page_title="Color Palette Generator", layout="wide") # Mengatur konfigurasi halaman
 st.title("Color Picker Gambar")
 st.markdown("Upload Gambar")
+st.markdown(
+    """
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
+    }
+
+    [data-testid="stHeader"] {
+        background-color: rgba(0,0,0,0);
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: rgba(255,255,255,0.1);
+    }
+
+    .block-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Komponen Unggah File
 uploaded_file = st.file_uploader("Pilih gambar", type=["jpg", "jpeg", "png"])
