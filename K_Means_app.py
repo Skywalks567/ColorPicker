@@ -78,7 +78,7 @@ st.title("Color Picker Gambar")
 st.markdown("Upload Gambar")
 
 # Komponen Unggah File
-uploaded_file = st.file_uploader("Pilih sebuah gambar...", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader(type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     # Membaca gambar yang diunggah
