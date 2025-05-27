@@ -28,7 +28,19 @@ def display_color_palette(colors):
                 rgb_color_val = f"({color[0]}, {color[1]}, {color[2]})"
                 st.markdown(
                     f"""
-                    <div style="
+                    <style>
+                    .color-box {{
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }}
+
+                    .color-box:hover {{
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+                        cursor: pointer;
+                    }}
+                    </style>
+
+                    <div class="color-box" style="
                         background-color: rgb({color[0]}, {color[1]}, {color[2]});
                         width: 100px;
                         height: 100px;
@@ -55,46 +67,52 @@ def display_color_palette(colors):
                 )
 
 # ===== Konfigurasi Streamlit dan UI =====
-st.set_page_config(page_title="Tugas AI Color Picker", layout="centered")
-st.title("Color Picker")
+st.set_page_config(page_title="Tugas AI Color Picker", page_icon="🖼️", layout="wide")
 
-st.markdown("""
-    <div style="
-        background-image : linear-gradient(to right top, #0027ff, #afa8ba, #7a7485, #db0000, #ff000b);
-        width: 100%;
-        min-height: 100%;
-        padding: 10px 0;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px black;
-        text-align: center;
-        margin-bottom: 20px;
-    ">
-        <div>
-            Made by : Raymond Frans Dodi Situmorang<br>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
-
+#CSS untuk page
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
+        overflow: hidden;
+        z-index: 0;
+    }
+
+/* Tambahkan elemen pseudo untuk blur */
+    [data-testid="stAppViewContainer"]::before {
+        content: "";
         background-image: url("https://github.com/Skywalks567/ColorPicker/blob/main/img/Background-image.png?raw=true");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(12px) brightness(0.7);
+        z-index: -1; /* agar berada di belakang konten */
     }
-    .main .block-container {
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        padding: 2rem;
+    [data-testid="stVerticalBlockBorderWrapper"] { 
+        position: relative;
+        z-index: 1;
+        max-width: 950px;
+        margin: 48px auto;
+        padding: 24px; /* Memberi jarak antara tepi kontainer ini dengan kolom kaca di dalamnya */
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
+    [data-testid="stHorizontalBlock"]{
+        background = None !important;
+        }
     </style>
 """, unsafe_allow_html=True)
+
+
+st.title("Color Picker")
+st.markdown("Made by Raymond Frans Dodi Situmorang")
 
 # ===== Session State =====
 if 'uploaded_file_value_for_logic' not in st.session_state:
@@ -120,33 +138,49 @@ def handle_checkbox_change_snippet():
         st.session_state.grafik_data_kmeans = None
 
 # ===== Input Widget =====
-uploaded_file = st.file_uploader(
-    "Upload Gambar",
-    type=["jpg", "jpeg", "png"],
-    key="uploader_widget_key_snippet",
-    on_change=handle_file_change_snippet,
-    disabled=st.session_state.use_example_checked_for_logic
-)
+col_kiri, col_kanan = st.columns([1, 1.2])
+with col_kiri:
+    uploaded_file = st.file_uploader(
+        "📁Upload Gambar",
+        type=["jpg", "jpeg", "png"],
+        key="uploader_widget_key_snippet",
+        on_change=handle_file_change_snippet,
+        disabled=st.session_state.use_example_checked_for_logic
+    )
 
-Contoh_Gambar_URL = "https://github.com/Skywalks567/ColorPicker/blob/main/img/example.jpg?raw=true"
-use_example = st.checkbox(
-    "Coba dengan gambar contoh",
-    key="example_checkbox_key_snippet",
-    on_change=handle_checkbox_change_snippet,
-    disabled=(st.session_state.uploaded_file_value_for_logic is not None)
-)
+    Contoh_Gambar_URL = "https://github.com/Skywalks567/ColorPicker/blob/main/img/example.jpg?raw=true"
+    use_example = st.checkbox(
+        "🖼️Coba dengan gambar contoh",
+        key="example_checkbox_key_snippet",
+        on_change=handle_checkbox_change_snippet,
+        disabled=(st.session_state.uploaded_file_value_for_logic is not None)
+    )
 
 # ===== Logika Gambar =====
 image_to_process_snippet = None
 k_value = 5
+with col_kanan:
+    
+    if st.session_state.use_example_checked_for_logic:
+        image_bytes_response = requests.get(Contoh_Gambar_URL)
+        image_to_process_snippet = Image.open(io.BytesIO(image_bytes_response.content)).convert('RGB')
+        st.info("Menggunakan gambar contoh.")
+        st.image(image_to_process_snippet, caption="Gambar Contoh", use_container_width=True)
 
+    elif st.session_state.uploaded_file_value_for_logic is not None:
+        image_bytes_data = st.session_state.uploaded_file_value_for_logic.getvalue()
+        image_to_process_snippet = Image.open(io.BytesIO(image_bytes_data)).convert('RGB')
+        st.image(image_to_process_snippet, caption=f"Gambar Diunggah: {st.session_state.uploaded_file_value_for_logic.name}", use_container_width=True)
+
+    else:
+        if not st.session_state.use_example_checked_for_logic and st.session_state.uploaded_file_value_for_logic is None:
+            st.info("Gambar kamu akan ditampilkan disini")
+    
 if st.session_state.use_example_checked_for_logic:
     try:
         image_bytes_response = requests.get(Contoh_Gambar_URL)
         image_bytes_response.raise_for_status()
         image_to_process_snippet = Image.open(io.BytesIO(image_bytes_response.content)).convert('RGB')
-        st.info("Menggunakan gambar contoh.")
-        st.image(image_to_process_snippet, caption="Gambar Contoh", use_container_width=True)
         with st.spinner("Menganalisis warna gambar contoh... ⏳"):
             dominant_colors, pixels, labels = get_dominant_colors(image_to_process_snippet, k=k_value)
             st.session_state.grafik_data_kmeans = (pixels, labels, dominant_colors)
@@ -161,7 +195,6 @@ elif st.session_state.uploaded_file_value_for_logic is not None:
     image_bytes_data = st.session_state.uploaded_file_value_for_logic.getvalue()
     try:
         image_to_process_snippet = Image.open(io.BytesIO(image_bytes_data)).convert('RGB')
-        st.image(image_to_process_snippet, caption=f"Gambar Diunggah: {st.session_state.uploaded_file_value_for_logic.name}", use_container_width=True)
         with st.spinner("Menganalisis warna gambar unggahan... ⏳"):
             dominant_colors, pixels, labels = get_dominant_colors(image_to_process_snippet, k=k_value)
             st.session_state.grafik_data_kmeans = (pixels, labels, dominant_colors)
